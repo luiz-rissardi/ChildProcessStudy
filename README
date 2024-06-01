@@ -1,0 +1,10 @@
+Um repositorio com o entuito de testar a capacidade de performace 
+de uma api que usa child process e outra que não usa, e fazer a comparação de qual
+performa mais.
+
+
+1000 usuarios por 20 segundos
+
+Sem childProcess 23k
+
+com childProcess 40K
