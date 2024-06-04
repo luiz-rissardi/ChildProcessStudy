@@ -1,5 +1,4 @@
-
-
+import { Writable } from "stream"
 
 export class Controller {
 
@@ -8,15 +7,23 @@ export class Controller {
         this.#service = service;
     }
 
-    async findAll(req,res){
+    async findAll(req, res) {
         try {
-            const result = await this.#service.findAll();
-            res.json(result);
+            const stream = await this.#service.findAll();
+            stream.pipe(new Writable({
+                write(chunk,enc,cb){
+                    cb();
+                    res.write(chunk)
+                },
+                final(cb){
+                    res.end();
+                    cb();
+                }
+            }))
         } catch (error) {
             res.writeHead(500);
-            console.log(error);
-        }finally{
             res.end("");
-        }
+            console.log(error);
+        } 
     }
 }

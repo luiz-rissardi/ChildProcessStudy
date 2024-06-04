@@ -1,8 +1,9 @@
 import { fork } from "child_process"
+import { Readable } from "stream";
 
 
 const processes = new Map();
-const MAX_PROCESSES = 3;
+const MAX_PROCESSES = 4;
 
 function startChilds() {
     for (let i = 0; i < MAX_PROCESSES; i++) {
@@ -39,7 +40,10 @@ export class Service {
                 const chosenProcess = getProcess();
                 function handler(data) {
                     chosenProcess.removeListener("message", handler);
-                    resolve(data)
+                    resolve(
+                        Readable.from(JSON.stringify(data))
+                    )
+                    data = undefined
                 }
 
                 chosenProcess.on("message", handler);

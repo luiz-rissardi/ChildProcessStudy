@@ -7,4 +7,10 @@ performa mais.
 
 Sem childProcess 23k
 
-com childProcess 40K
+3 childs
+com childProcess 50K
+
+3 childs com streams 64K
+
+4 childs 
+51k

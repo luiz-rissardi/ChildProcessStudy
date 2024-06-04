@@ -15,7 +15,7 @@ export class DataBaseMySql {
     async findAll() {
         const connection = await this.#getConnection();
         try {
-            const [users] = await connection.query("SELECT * FROM usuario LIMIT 30");
+            const [users] = await connection.query("SELECT * FROM usuario LIMIT 100");
             return users;
         } catch (error) {
             console.log(error);
