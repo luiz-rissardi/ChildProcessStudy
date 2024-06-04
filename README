@@ -8,9 +8,20 @@ performa mais.
 Sem childProcess 23k
 
 3 childs
-com childProcess 50K
+com childProcess 51K
 
-3 childs com streams 64K
+3 childs com streams 57K
 
-4 childs 
-51k
+4 ou 5 childs coms streams 55K
+
+
+agora vamos matar os processos ao inves de sempre reutilizar eles
+
+4 chils com streams com kill 56K
+3 chils com streams com kill 61K
+
+conclusões
+
+ao utilizar o childProcess tem uma alta escalabilidade no seu sistema, 
+usando ainda combinando com stream a velocidade de resposta aumenta, e matando os 
+processos para que novo processos "zerados" possam tomar conta do seu ludar

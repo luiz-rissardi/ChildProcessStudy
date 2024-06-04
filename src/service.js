@@ -19,9 +19,13 @@ function startChilds() {
 startChilds()
 
 let index = 0;
-const availableProcesses = [...processes.values()];
 function getProcess() {
+    const availableProcesses = [...processes.values()].filter(child => !child.killed);
     if (availableProcesses.length >= index) index = 0;
+    if (availableProcesses.length === 0) {
+       startChilds();
+        return getProcess();
+    }
     const chosenProcess = availableProcesses[index];
     index++;
     return chosenProcess;
@@ -39,15 +43,16 @@ export class Service {
             try {
                 const chosenProcess = getProcess();
                 function handler(data) {
-                    chosenProcess.removeListener("message", handler);
                     resolve(
                         Readable.from(JSON.stringify(data))
                     )
-                    data = undefined
+                    chosenProcess.kill();
+                    chosenProcess.removeListener("message",handler);
+                    data = undefined;
                 }
 
-                chosenProcess.on("message", handler);
                 chosenProcess.send("")
+                chosenProcess.on("message", handler);
             } catch (error) {
                 reject(error.message)
             }
